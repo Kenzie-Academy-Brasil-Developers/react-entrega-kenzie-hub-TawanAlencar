@@ -34,14 +34,14 @@ export const RegisterStyle =  styled.div`
         margin-bottom: 20px;
         min-width: 280px;
     }
-    header button{
+    .button_voltar{
         padding:8px;
         border-radius: 4px;
         background-color: var(--grey-2);
         color: var(--grey-0);
         border: 1.2px solid var(--grey-2);
     }
-    header button:hover{
+    .button_voltar:hover{
         opacity: 0.8;
     }
     span{

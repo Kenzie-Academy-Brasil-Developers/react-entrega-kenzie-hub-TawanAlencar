@@ -33,17 +33,25 @@ export const LoginStyle = styled.div`
         gap: 20px;
         margin-top: 10px;
     }
-    button{
+    .entrar{
         padding: 11px;
         border-radius: 4px;
         color: var(--grey-0);
         font-size: 16px;
+        text-align: center;
     }
     #entrar{
         background-color: var(--color-primary);
         border: solid 1.2px var(--color-primary);
        
         
+    }
+    .ir_cadastro_button{
+        padding: 11px;
+        border-radius: 4px;
+        color: var(--grey-0);
+        font-size: 16px;
+        text-align: center;
     }
     #ir_cadastro{
         background-color: var(--grey-1);

@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         font-family: 'Inter', sans-serif;
         list-style: none;
-
+        text-decoration:none;
     }
     :root{
         --color-primary:            #FF577F;
@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
         --grey-4:                   #121214;
         --sucess:                   #3FE864;
         --negative:                 #E83F5B;
-
+        
     }
 
     button{
