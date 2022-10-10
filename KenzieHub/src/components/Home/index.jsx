@@ -1,10 +1,12 @@
 
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
 import * as style from "./style";
 
 function Home(){
     const navigate = useNavigate()
+    const name        = localStorage.getItem("@kenziehub:tokenName")
+    const courseModule = localStorage.getItem("@kenziehub:tokenCourse_module")
+
     function removeAll(){
         localStorage.clear()
         navigate("/")
@@ -19,8 +21,8 @@ function Home(){
                 <button onClick={removeAll} className="Sair" >Sair</button>
             </header>
             <div className="container_user">
-                <h2>Olá, Pessoa</h2>
-                <span >Primeiro módulo  (Introdução ao Frontend)</span>
+                <h2>Olá, {name}</h2>
+                <span >{courseModule}</span>
             </div>
             <div className="container_info">
                 <h2>Que pena! Estamos em desenvolvimento :(</h2>
