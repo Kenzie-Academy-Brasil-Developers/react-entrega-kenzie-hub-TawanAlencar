@@ -1,16 +1,26 @@
 
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 import * as style from "./style";
 
 function Home(){
+    const navigate = useNavigate()
+    function removeAll(){
+        localStorage.clear()
+        navigate("/")
+    }
+
+    
+    
     return(
         <style.HomeStyle>
             <header>
                 <h1>Kenzie Hub</h1>
-                <button className="Sair" >Sair</button>
+                <button onClick={removeAll} className="Sair" >Sair</button>
             </header>
             <div className="container_user">
                 <h2>Olá, Pessoa</h2>
-                <span>Primeiro módulo  (Introdução ao Frontend)</span>
+                <span >Primeiro módulo  (Introdução ao Frontend)</span>
             </div>
             <div className="container_info">
                 <h2>Que pena! Estamos em desenvolvimento :(</h2>

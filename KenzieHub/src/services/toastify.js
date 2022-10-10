@@ -10,6 +10,7 @@ export function toastAcess(text){
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+        theme: "dark",
         });
    
     
@@ -23,6 +24,7 @@ export function toastError(text){
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+        theme: "dark",
         })
 }
 
