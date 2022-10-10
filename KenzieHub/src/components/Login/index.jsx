@@ -28,6 +28,7 @@ function Login() {
         .post("sessions", data)
         .then((res) => {
             localStorage.setItem("@kenziehub:token", res.data.token)
+            localStorage.setItem("@kenziehub:tokenID", res.data.id)
             if(res.data.token){
                 navigate("home")
                 toastAcess("Login realizado com sucesso");

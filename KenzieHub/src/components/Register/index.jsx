@@ -14,13 +14,13 @@ function Register(){
         email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
         password: 
         yup.string().required("Senha obrigatória")
-        .matches(/^(?=.[A-Za-z])(?=.[0-9])(?=.*[!@#$%^&*])/, 
+        .matches(/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/, 
         "A senha deve possuir no mínimo 8 caracteres, ter no mínimo uma letra maiscúla e uma letra minuscúla e um caractere especial"),
         confirmPass: yup.string().required("Senha obrigatória").oneOf([yup.ref("password")],"As senhas precisam ser iguais"),
         name: yup.string().required("Nome obrigatório"),
         bio: yup.string().required("Bio obrigatória"),
-        contact: yup.string().required("Contato obrigatório").matches(/^([0-9]{2})([0-9]{4,5})([0-9]{4})$/, "Digite um número válido"),
-        course_module: yup.string().required("Selecione seu módulo")
+        contact: yup.string().required("Contato obrigatório"),
+      
     });
 
     const {
@@ -36,7 +36,8 @@ function Register(){
         .post("users", data)
         .then((res) => {
             localStorage.setItem("@kenziehub:token", res.data.token)
-            if(res.data.token){
+            localStorage.setItem("@kenziehub:tokenID", res.data.id)
+            if(res){
                 navigate("/")
                 toastAcess("Cadastrado realizado com sucesso");
             }
@@ -73,14 +74,14 @@ function Register(){
                     {errors.email?.message}
                     <label htmlFor="">Senha</label>
                     <input 
-                    type="text" 
+                    type="password" 
                     placeholder="Digite aqui sua senha" 
                     {...register("password")}
                     />
                     {errors.password?.message}
                     <label htmlFor="">Confirmar Senha</label>
                     <input 
-                    type="text"
+                    type="password"
                     {...register("confirmPass")}
                     placeholder="Confirme aqui sua senha" 
                     />
@@ -103,7 +104,7 @@ function Register(){
                     {errors.contact?.message}
 
                     <p>Selecionar módulo</p>
-                    <select name="" id="">
+                    <select   {...register("course_module")} name="" id="">
                         <option value="Primeiro módulo (Introdução ao Frontend">Primeiro Módulo</option>
                         <option value="Segundo módulo (Frontend Avançado)">Segundo Módulo</option>
                         <option value="Terceiro módulo (Introdução ao Backend)">Terceiro Módulo</option>
