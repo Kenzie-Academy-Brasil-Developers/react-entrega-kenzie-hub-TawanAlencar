@@ -1,15 +1,16 @@
 import { FormStyle } from "../Form/style";
 import * as yup from "yup";
 import * as style from "./style";
-import api from "../../services/api";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toastAcess, toastError } from "../../services/toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContexts } from "../contexts/AuthContexts";
 
 function Login() {
-    const navigate   = useNavigate()
-
+    
+    const {submitForm} = useContext(AuthContexts)
+    
     const formSchema = yup.object().shape({
         email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
         password: yup.string().required("Senha obrigatória"),
@@ -23,25 +24,7 @@ function Login() {
         resolver: yupResolver(formSchema),
     });
 
-    function submitForm(data) {
-        api
-        .post("sessions", data)
-        .then((res) => {
-            localStorage.setItem("@kenziehub:token", res.data.token)
-            localStorage.setItem("@kenziehub:tokenID", res.data.user.id)
-            localStorage.setItem("@kenziehub:tokenName",res.data.user.name)
-            localStorage.setItem("@kenziehub:tokenCourse_module",res.data.user.course_module)
-
-            if(res.data.token){
-                navigate("home")
-                toastAcess("Login realizado com sucesso");
-            }
-        })
     
-        .catch((error) => {
-            toastError(error.response.data.message);
-        });
-    }
   
     return (
         <style.LoginStyle>

@@ -1,3 +1,4 @@
+
 import GlobalStyle from "./Styles/global";
 import RoutesMenu from "./Routes";
 import { ToastContainer } from "react-toastify";
@@ -9,6 +10,7 @@ function App() {
       <ToastContainer/>
       <GlobalStyle />
       <RoutesMenu />
+    
     </div>
   );
 }

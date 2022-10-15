@@ -3,14 +3,15 @@ import { FormStyle } from "../Form/style";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toastAcess, toastError } from "../../services/toastify";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../../services/api";
+import { Link } from "react-router-dom";
+import { AuthContexts } from "../contexts/AuthContexts";
+import { useContext } from "react";
+
 
 function Register(){
-    const navigate   = useNavigate()
+    const {registerUser} = useContext(AuthContexts)
 
-    const formSchema = yup.object({
+    const formSchema = yup.object().shape({
         email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
         password: 
         yup.string().required("Senha obrigatória")
@@ -20,7 +21,7 @@ function Register(){
         name: yup.string().required("Nome obrigatório"),
         bio: yup.string().required("Bio obrigatória"),
         contact: yup.string().required("Contato obrigatório"),
-      
+        courseModule: yup.string().required()
     });
 
     const {
@@ -31,21 +32,12 @@ function Register(){
         resolver: yupResolver(formSchema),
     });
 
-    function submitForm(data) {
-        api
-        .post("users", data)
-        .then((res) => {
-            localStorage.setItem("@kenziehub:token", res.data.token)
-            localStorage.setItem("@kenziehub:tokenID", res.data.id)
-            if(res){
-                navigate("/")
-                toastAcess("Cadastrado realizado com sucesso");
-            }
-        })
-    
-        .catch((error) => {
-            toastError(error.response.data.message);
-        });
+    function submit({email,password,contact,name,bio,courseModule}){
+        const data = {
+            email,password,contact,name,bio,course_module: courseModule
+        }
+        registerUser(data) 
+
     }
 
     return(
@@ -55,31 +47,31 @@ function Register(){
                 <Link className="button_voltar" to={"/"}>Voltar</Link>
             </header>
             <div className="container_form">
-                <FormStyle onSubmit={handleSubmit(submitForm)}>
+                <FormStyle onSubmit={handleSubmit(submit)}>
                     <h2>Crie sua conta</h2>
                     <span>Rápido e grátis,vamos nessa</span>
-                    <label htmlFor="">Nome</label>
+                    <label htmlFor="Nome">Nome</label>
                     <input 
                     type="text" 
                     {...register("name")}
                     placeholder="Digite aqui seu nome"
                     />
                     {errors.name?.message}
-                    <label htmlFor="">Email</label>
+                    <label htmlFor="Email">Email</label>
                     <input 
                     type="text" 
                     placeholder="Digite aqui seu email"
                     {...register("email")}
                     />
                     {errors.email?.message}
-                    <label htmlFor="">Senha</label>
+                    <label htmlFor="Senha">Senha</label>
                     <input 
                     type="password" 
                     placeholder="Digite aqui sua senha" 
                     {...register("password")}
                     />
                     {errors.password?.message}
-                    <label htmlFor="">Confirmar Senha</label>
+                    <label htmlFor="Confirmar Senha">Confirmar Senha</label>
                     <input 
                     type="password"
                     {...register("confirmPass")}
@@ -87,7 +79,7 @@ function Register(){
                     />
                     {errors.confirmPass?.message}
 
-                    <label htmlFor="">Bio</label>
+                    <label htmlFor="Bio">Bio</label>
                     <input 
                     type="text" 
                     placeholder="Fale sobre você"
@@ -95,7 +87,7 @@ function Register(){
                     />
 
                     {errors.bio?.message}
-                    <label htmlFor="">Contato</label>
+                    <label htmlFor="Contato">Contato</label>
                     <input 
                     type="text" 
                     placeholder="Opção de contato"
@@ -104,8 +96,8 @@ function Register(){
                     {errors.contact?.message}
 
                     <p>Selecionar módulo</p>
-                    <select   {...register("course_module")} name="" id="">
-                        <option value="Primeiro módulo (Introdução ao Frontend">Primeiro Módulo</option>
+                    <select   {...register("courseModule")} >
+                        <option value="Primeiro módulo (Introdução ao Frontend)">Primeiro Módulo</option>
                         <option value="Segundo módulo (Frontend Avançado)">Segundo Módulo</option>
                         <option value="Terceiro módulo (Introdução ao Backend)">Terceiro Módulo</option>
                         <option value="Quarto módulo (Backend Avançado)">Quarto Módulo</option>
