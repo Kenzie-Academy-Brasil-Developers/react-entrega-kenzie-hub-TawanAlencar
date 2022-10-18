@@ -10,6 +10,7 @@ export const LoginStyle = styled.div`
     min-width: 320px;
     background-color: var(--grey-4);
     gap: 20px;
+    max-height: 650px;
     
     h1{
         color: var(--color-primary);

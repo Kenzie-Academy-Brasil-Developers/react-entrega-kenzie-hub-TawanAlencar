@@ -6,8 +6,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
-function Modal({ setOpenModal }) {
-  const { addTech } = useContext(AuthContexts);
+function Modal() {
+  const { addTech,listTech,setOpenModal } = useContext(AuthContexts);
 
   const formSchema = yup.object().shape({
     title: yup.string().required("Título obrigatório"),
@@ -49,7 +49,7 @@ function Modal({ setOpenModal }) {
           <option value="Intermediário">Intermediário</option>
           <option value="Avançado">Avançado</option>
         </select>
-        <button type= "submit" id="cadastrar">Cadastrar Tecnologia</button>
+        <button onClick={()=>listTech()} type= "submit" id="cadastrar">Cadastrar Tecnologia</button>
       </FormStyle>
     </style.ModalStyle>
   );
