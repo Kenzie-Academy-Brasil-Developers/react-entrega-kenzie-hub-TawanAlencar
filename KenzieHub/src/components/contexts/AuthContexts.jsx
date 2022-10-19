@@ -13,17 +13,16 @@ function AuthProvider({ children }) {
 
     useEffect(() => {
         async function listTech() {
-        const token = localStorage.getItem("@kenziehub:token");
-        const {data:{techs,name,course_module}} = await api.get("profile", {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-        setTechs(techs);
-        setUser({
-            name: name,
-            course_module: course_module
-        });
+            const token = localStorage.getItem("@kenziehub:token");
+            const { data } = await api.get("profile", {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const { techs, name, course_module } = data
+            setTechs(techs);
+            setUser({
+                name: name,
+                course_module: course_module
+            })
         }
         listTech();
     }, []);
@@ -65,33 +64,35 @@ function AuthProvider({ children }) {
     }
 
     async function addTech(data) {
-        const token = localStorage.getItem("@kenziehub:token");
         try {
-        const techs = await api.post("users/techs", data, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-        toastAcess("Cadastrado realizado com sucesso");
-        setOpenModal(false);
-        setTechs(techs);
+            const token = localStorage.getItem("@kenziehub:token");
+            await api.post("users/techs", data, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            const { data: { techs } } = await api.get("profile", {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            toastAcess("Cadastrado realizado com sucesso");
+            setOpenModal(false)
+            setTechs(techs)
         } catch (error) {
-        toastError("Algo deu errado");
+            toastError("Algo deu errado");
         }
     }
 
     async function deleteTech(id) {
         const token = localStorage.getItem("@kenziehub:token");
-        const deletar = await api
-        .delete(`users/techs/${id}`, {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        })
+        await api
+            .delete(`users/techs/${id}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            })
 
-        .then((res) => {
+        .then(async(res) => {
             toastAcess("Deletado com sucesso");
-            setTechs(techs);
+            const { data: { techs } } = await api.get("profile", {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            setTechs(techs)
         })
         .catch((error) => {
             toastError("Algo deu errado");
