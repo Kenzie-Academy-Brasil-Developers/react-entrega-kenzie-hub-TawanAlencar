@@ -8,7 +8,6 @@ import { useContext } from "react";
 import { AuthContexts } from "../contexts/AuthContexts";
 
 function Login() {
-    
     const {submitForm} = useContext(AuthContexts)
 
     const formSchema = yup.object().shape({

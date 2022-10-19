@@ -3,11 +3,12 @@ import { AuthContexts } from "../contexts/AuthContexts";
 import * as style from "./style";
 import { BiTrash } from "react-icons/bi";
 import Modal from "../Modal";
+import { useLocation } from "react-router-dom";
 
 function Home() {
     const { removeAll, deleteTech, user, setOpenModal, openModal,techs } =
         useContext(AuthContexts);
-    console.log(techs)
+   
     function open() {
         setOpenModal(true);
     }

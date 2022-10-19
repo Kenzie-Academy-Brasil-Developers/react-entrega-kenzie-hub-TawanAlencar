@@ -23,6 +23,9 @@ function AuthProvider({ children }) {
                 name: name,
                 course_module: course_module
             })
+            if(token){
+                navigate("home")
+            }
         }
         listTech();
     }, []);
@@ -36,6 +39,7 @@ function AuthProvider({ children }) {
             setUser(res.data.user);
             navigate("home");
             toastAcess("Login realizado com sucesso");
+            
         })
 
         .catch((error) => {
