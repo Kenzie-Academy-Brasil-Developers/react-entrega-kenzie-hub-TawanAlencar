@@ -1,25 +1,32 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { toastAcess, toastError } from "../../services/toastify";
 
 export const AuthContexts = createContext({});
 
-    function AuthProvider({ children }) {
+function AuthProvider({ children }) {
     const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [openModal, setOpenModal] = useState(null);
+    const [techs, setTechs] = useState([]);
 
-    async function listTech() {
+    useEffect(() => {
+        async function listTech() {
         const token = localStorage.getItem("@kenziehub:token");
-        const list = await api.get("profile", {
-        headers: {
+        const {data:{techs,name,course_module}} = await api.get("profile", {
+            headers: {
             Authorization: `Bearer ${token}`,
-        },
+            },
         });
-
-        setUser(list.data);
-    }
+        setTechs(techs);
+        setUser({
+            name: name,
+            course_module: course_module
+        });
+        }
+        listTech();
+    }, []);
 
     async function submitForm(data) {
         await api
@@ -59,20 +66,18 @@ export const AuthContexts = createContext({});
 
     async function addTech(data) {
         const token = localStorage.getItem("@kenziehub:token");
-        const techs = await api
-        .post("users/techs", data, {
+        try {
+        const techs = await api.post("users/techs", data, {
             headers: {
             Authorization: `Bearer ${token}`,
             },
-        })
-        .then((res) => {
-            toastAcess("Cadastrado realizado com sucesso");
-            listTech();
-            setOpenModal(false)
-        })
-        .catch((error) => {
-            toastError("Algo deu errado");
         });
+        toastAcess("Cadastrado realizado com sucesso");
+        setOpenModal(false);
+        setTechs(techs);
+        } catch (error) {
+        toastError("Algo deu errado");
+        }
     }
 
     async function deleteTech(id) {
@@ -86,7 +91,7 @@ export const AuthContexts = createContext({});
 
         .then((res) => {
             toastAcess("Deletado com sucesso");
-            listTech();
+            setTechs(techs);
         })
         .catch((error) => {
             toastError("Algo deu errado");
@@ -102,8 +107,8 @@ export const AuthContexts = createContext({});
             addTech,
             deleteTech,
             user,
+            techs,
             setUser,
-            listTech,
             openModal,
             setOpenModal,
         }}
@@ -111,6 +116,6 @@ export const AuthContexts = createContext({});
         {children}
         </AuthContexts.Provider>
     );
-    }
+}
 
 export default AuthProvider;

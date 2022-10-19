@@ -1,17 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContexts } from "../contexts/AuthContexts";
 import * as style from "./style";
 import { BiTrash } from "react-icons/bi";
 import Modal from "../Modal";
 
 function Home() {
-    const { removeAll, deleteTech, user, listTech, setOpenModal, openModal } =
+    const { removeAll, deleteTech, user, setOpenModal, openModal,techs } =
         useContext(AuthContexts);
-
+    console.log(techs)
     function open() {
         setOpenModal(true);
     }
-    listTech();
 
     return (
         <style.HomeStyle>
@@ -32,7 +31,7 @@ function Home() {
             </button>
             {openModal && <Modal />}
             <ul className="container_list">
-            {user.techs?.map((element, index) => (
+            {techs.map((element, index) => (
                 <li key={index}>
                 <h3>{element.title}</h3>
                 <div className="remover_item">
