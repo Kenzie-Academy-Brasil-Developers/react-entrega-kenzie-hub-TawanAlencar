@@ -1,7 +1,7 @@
 import {toast} from "react-toastify"
 
 
-export function toastAcess(text){
+export function toastAcess(text:string){
     toast.success(text, {
         position: "top-right",
         autoClose: 5000,
@@ -15,7 +15,7 @@ export function toastAcess(text){
    
     
 }
-export function toastError(text){
+export function toastError(text:string){
     toast.error(text, {
         position: "top-right",
         autoClose: 5000,

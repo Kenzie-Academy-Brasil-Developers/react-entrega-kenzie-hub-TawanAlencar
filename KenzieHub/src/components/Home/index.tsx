@@ -3,7 +3,7 @@ import { AuthContexts } from "../contexts/AuthContexts";
 import * as style from "./style";
 import { BiTrash } from "react-icons/bi";
 import Modal from "../Modal";
-import { useLocation } from "react-router-dom";
+
 
 function Home() {
     const { removeAll, deleteTech, user, setOpenModal, openModal,techs } =
@@ -22,8 +22,8 @@ function Home() {
             </button>
         </header>
         <div className="container_user">
-            <h2>Olá, {user.name}</h2>
-            <span>{user.course_module}</span>
+            <h2>Olá, {user?.name}</h2>
+            <span>{user?.course_module}</span>
         </div>
         <div className="container_info">
             <h3>Tecnologias</h3>

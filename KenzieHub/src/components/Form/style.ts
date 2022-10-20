@@ -1,6 +1,10 @@
+import { ReactNode } from "react";
 import styled from "styled-components";
 
-export const FormStyle =  styled.form`
+
+
+
+export const FormStyle:any =  styled.form`
     display: flex;
     flex-direction: column;
     padding:20px;
