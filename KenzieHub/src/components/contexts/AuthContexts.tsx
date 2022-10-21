@@ -16,6 +16,7 @@ interface IAuthContexts{
     openModal:boolean | null
     setOpenModal:Dispatch<SetStateAction<boolean | null>>
 }
+
 export const AuthContexts = createContext<IAuthContexts>({} as IAuthContexts);
 type data  = object
 type id = string 
@@ -44,6 +45,7 @@ function AuthProvider({ children }:IAuthProvider) {
     const [user, setUser] = useState<IUser| null>(null);
     const [openModal, setOpenModal] = useState<null|boolean>(null);
     const [techs, setTechs] = useState<ITechs[]>([]);
+    
 
     useEffect(() => {
         async function listTech():Promise<void> {
@@ -70,6 +72,7 @@ function AuthProvider({ children }:IAuthProvider) {
         .then((res) => {
             localStorage.setItem("@kenziehub:token", res.data.token);
             localStorage.setItem("@kenziehub:tokenID", res.data.user.id);
+            setTechs(res.data.user.techs)
             setUser(res.data.user);
             navigate("home");
             toastAcess("Login realizado com sucesso");
